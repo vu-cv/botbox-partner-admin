@@ -40,11 +40,11 @@ const UserInfo: React.FC<UserInfoProps> = ({hasColor}) => {
   const items = [
     {
       key: 1,
-      label: <div onClick={() => navigate('/my-profile')}>My Profile</div>,
+      label: <div onClick={() => navigate('/my-profile')}>Hồ sơ của tôi</div>,
     },
     {
       key: 2,
-      label: <div onClick={() => logout()}>Logout</div>,
+      label: <div onClick={() => logout()}>Đăng xuất</div>,
     },
   ];
 
@@ -93,7 +93,7 @@ const UserInfo: React.FC<UserInfoProps> = ({hasColor}) => {
                   </StyledUserArrow>
                 </StyledUsernameInfo>
                 <StyledCrUserDesignation className='text-truncate'>
-                  System Manager
+                  Đối tác
                 </StyledCrUserDesignation>
               </StyledCrUserInfoContent>
             </StyledCrUserInfoInner>
@@ -136,7 +136,7 @@ const UserInfo: React.FC<UserInfoProps> = ({hasColor}) => {
                   </StyledUserArrow>
                 </StyledUsernameInfo>
                 <StyledCrUserDesignation className='text-truncate cr-user-designation'>
-                  System Manager
+                  Đối tác
                 </StyledCrUserDesignation>
               </StyledCrUserInfoContent>
             </StyledCrUserInfoInner>

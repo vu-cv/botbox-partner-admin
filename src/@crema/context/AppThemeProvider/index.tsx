@@ -1,5 +1,5 @@
 import React, { ReactElement, useEffect } from "react";
-import { ConfigProvider } from "antd";
+import { App, ConfigProvider } from "antd";
 import { ThemeProvider } from "styled-components";
 import { useLayoutContext } from "../AppContextProvider/LayoutContextProvider";
 import { useLocaleContext } from "../AppContextProvider/LocaleContextProvider";
@@ -31,7 +31,7 @@ const AppThemeProvider: React.FC<AppThemeProviderProps> = (props) => {
           token: getAntTheme(theme),
         }}
       >
-        {props.children}
+        <App>{props.children}</App>
       </ConfigProvider>
     </ThemeProvider>
   );

@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { message } from "antd";
+import { App } from "antd";
 
 import AppLoader from "../AppLoader";
 
@@ -9,6 +9,7 @@ import {
 } from "@crema/context/AppContextProvider/InfoViewContextProvider";
 
 const AppInfoView = () => {
+  const { message } = App.useApp();
   const { loading, error, displayMessage } = useInfoViewContext();
   const { clearInfoView } = useInfoViewActionsContext();
 

@@ -6,13 +6,13 @@ import Error403 from "../../../modules/errorPages/Error403";
 import {errorPagesConfigs} from "./ErrorPagesRoutes";
 import {accountPagesConfigs} from "./AccountRoutes";
 import {initialUrl} from "@crema/constants/AppConst";
-import {samplePagesConfigs} from "./SamplePages.tsx";
+import {partnerPagesConfigs} from "./PartnerRoutes";
 
 const authorizedStructure = {
     fallbackPath: '/signin',
     unAuthorizedComponent: <Error403/>,
     routes: [
-        ...samplePagesConfigs,
+        ...partnerPagesConfigs,
         ...accountPagesConfigs,
     ],
 };

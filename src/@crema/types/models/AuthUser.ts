@@ -6,4 +6,5 @@ export type AuthUserType = {
   photoURL?: string;
   token?: string;
   role?: string[] | string;
+  balance?: number;
 };

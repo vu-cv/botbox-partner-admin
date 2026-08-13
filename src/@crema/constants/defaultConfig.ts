@@ -182,10 +182,9 @@ const defaultConfig = {
   },
 
   locale: {
-    languageId: "english",
-    locale: "en",
-    name: "English",
-    icon: "us",
+    languageId: "vietnamese",
+    locale: "vi",
+    name: "Tiếng Việt",
   },
   themeStyle: ThemeStyle.STANDARD,
   direction: LayoutDirection.LTR,

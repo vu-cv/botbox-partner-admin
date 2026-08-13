@@ -16,3 +16,14 @@ export const StyledAppLogo = styled.div`
     }
   }
 `;
+
+export const StyledAppLogoText = styled.div<{$inverse?: boolean}>`
+  font-size: 20px;
+  font-weight: ${({theme}) => theme.font.weight.bold};
+  color: ${({$inverse, theme}) => ($inverse ? '#fff' : theme.palette.text.primary)};
+  white-space: nowrap;
+
+  & span {
+    color: ${({theme}) => theme.palette.primary.main};
+  }
+`;

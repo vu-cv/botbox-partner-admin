@@ -33,10 +33,10 @@ const AuthWrapper: React.FC<Props> = ({children}) => {
           </StyledAuthMainContent>
           <StyledAuthWellAction>
             <StyledAuthWelContent>
-              <h2>Welcome to Crema!</h2>
+              <h2>Chào mừng đến với Botbox Partner!</h2>
               <p>
-                Crema is purely based on Ant Design components and follows Ant
-                Design guidelines.
+                Nền tảng quản lý dành cho đối tác của Botbox — quản lý khách
+                hàng, giao dịch và theo dõi hoạt động kinh doanh của bạn.
               </p>
             </StyledAuthWelContent>
           </StyledAuthWellAction>

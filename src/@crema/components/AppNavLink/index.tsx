@@ -7,10 +7,10 @@ type AppNavLinkProps = {
 
   [x: string]: any;
 };
-const AppNavLink = React.forwardRef(const AppNavLink=(
+const AppNavLink = React.forwardRef((
   {activeClassName, className, ...rest}: AppNavLinkProps,
   ref: Ref<HTMLAnchorElement>,
-)=> {
+) => {
   return (
     <NavLink
       ref={ref}

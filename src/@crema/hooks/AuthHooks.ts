@@ -1,9 +1,9 @@
-/*// ForJWT Auth
+// For JWT Auth
 import { getUserFromJwtAuth } from '@crema/helpers/AuthHelper';
 import {
   useJWTAuth,
   useJWTAuthActions,
-} from '@crema/services/auth/JWTAuthProvider';
+} from '@crema/services/auth/jwt-auth/JWTAuthProvider';
 
 export const useAuthUser = () => {
   const {user, isAuthenticated, isLoading} = useJWTAuth();
@@ -15,14 +15,16 @@ export const useAuthUser = () => {
 };
 
 export const useAuthMethod = () => {
-  const {signInUser, signUpUser, logout} = useJWTAuthActions();
+  const {signInUser, logout, refreshUser} = useJWTAuthActions();
 
   return {
     signInUser,
     logout,
-    signUpUser,
+    refreshUser,
   };
-};*/
+};
+
+/*
 //For Firebase Auth
 
 import {getUserFromFirebase} from '@crema/helpers/AuthHelper';
@@ -55,6 +57,7 @@ export const useAuthMethod = () => {
     logout,
   };
 };
+*/
 /*
 // For AWS Auth
 import { getUserFromAWS } from '@crema/helpers/AuthHelper';

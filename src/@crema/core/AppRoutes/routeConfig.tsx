@@ -1,28 +1,37 @@
 import React from 'react';
-import {BiAlignLeft} from 'react-icons/bi';
+import {HiOutlineUsers} from 'react-icons/hi';
+import {MdOutlineDashboard, MdOutlineReceiptLong} from 'react-icons/md';
 
 const routesConfig = [
   {
-    id: 'app',
-    title: 'Sample',
-    messageId: 'sidebar.sample',
+    id: 'partner',
+    title: 'Partner',
+    messageId: 'sidebar.partner',
     type: 'group',
     children: [
       {
-        id: 'page-1',
-        title: 'Page 1',
-        messageId: 'sidebar.sample.page1',
+        id: 'partner-dashboard',
+        title: 'Dashboard',
+        messageId: 'sidebar.partner.dashboard',
         type: 'item',
-        icon: <BiAlignLeft />,
-        url: '/sample/page-1',
+        icon: <MdOutlineDashboard />,
+        url: '/partner/dashboard',
       },
       {
-        id: 'page-2',
-        title: 'Page 2',
-        messageId: 'sidebar.sample.page2',
+        id: 'partner-customers',
+        title: 'Customers',
+        messageId: 'sidebar.partner.customers',
         type: 'item',
-        icon: <BiAlignLeft />,
-        url: '/sample/page-2',
+        icon: <HiOutlineUsers />,
+        url: '/partner/customers',
+      },
+      {
+        id: 'partner-transactions',
+        title: 'Transactions',
+        messageId: 'sidebar.partner.transactions',
+        type: 'item',
+        icon: <MdOutlineReceiptLong />,
+        url: '/partner/transactions',
       },
     ],
   },

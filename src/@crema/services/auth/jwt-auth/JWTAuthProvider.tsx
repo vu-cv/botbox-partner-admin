@@ -8,6 +8,7 @@ import React, {
 import { AuthUserType } from "@crema/types/models/AuthUser";
 import jwtAxios, { setAuthToken } from "./index";
 import { useInfoViewActionsContext } from "@crema/context/AppContextProvider/InfoViewContextProvider";
+import { ACCESS_TOKEN_KEY, REFRESH_TOKEN_KEY } from "./tokenKeys";
 
 interface JWTAuthContextProps {
   user: AuthUserType | null | undefined;
@@ -15,21 +16,15 @@ interface JWTAuthContextProps {
   isLoading: boolean;
 }
 
-interface SignUpProps {
-  name: string;
-  email: string;
-  password: string;
-}
-
-interface SignInProps {
+export interface SignInProps {
   email: string;
   password: string;
 }
 
 interface JWTAuthActionsProps {
-  signUpUser: (data: SignUpProps) => void;
   signInUser: (data: SignInProps) => void;
   logout: () => void;
+  refreshUser: () => void;
 }
 
 const JWTAuthContext = createContext<JWTAuthContextProps>({
@@ -38,9 +33,9 @@ const JWTAuthContext = createContext<JWTAuthContextProps>({
   isLoading: true,
 });
 const JWTAuthActionsContext = createContext<JWTAuthActionsProps>({
-  signUpUser: () => {},
   signInUser: () => {},
   logout: () => {},
+  refreshUser: () => {},
 });
 
 export const useJWTAuth = () => useContext(JWTAuthContext);
@@ -54,7 +49,7 @@ interface JWTAuthAuthProviderProps {
 const JWTAuthAuthProvider: React.FC<JWTAuthAuthProviderProps> = ({
   children,
 }) => {
-  const [firebaseData, setJWTAuthData] = useState<JWTAuthContextProps>({
+  const [jwtAuthData, setJWTAuthData] = useState<JWTAuthContextProps>({
     user: null,
     isAuthenticated: false,
     isLoading: true,
@@ -63,8 +58,8 @@ const JWTAuthAuthProvider: React.FC<JWTAuthAuthProviderProps> = ({
   const infoViewActionsContext = useInfoViewActionsContext();
 
   useEffect(() => {
-    const getAuthUser = () => {
-      const token = localStorage.getItem("token");
+    const getAuthUser = async () => {
+      const token = localStorage.getItem(ACCESS_TOKEN_KEY);
 
       if (!token) {
         setJWTAuthData({
@@ -75,89 +70,72 @@ const JWTAuthAuthProvider: React.FC<JWTAuthAuthProviderProps> = ({
         return;
       }
       setAuthToken(token);
-      jwtAxios
-        .get("/auth")
-        .then(({ data }: any) =>
-          setJWTAuthData({
-            user: data,
-            isLoading: false,
-            isAuthenticated: true,
-          }),
-        )
-        .catch(() =>
-          setJWTAuthData({
-            user: undefined,
-            isLoading: false,
-            isAuthenticated: false,
-          }),
-        );
+      try {
+        const { data: body } = await jwtAxios.get("/partner/auth/me");
+        setJWTAuthData({
+          user: body.data,
+          isLoading: false,
+          isAuthenticated: true,
+        });
+      } catch (error) {
+        localStorage.removeItem(ACCESS_TOKEN_KEY);
+        localStorage.removeItem(REFRESH_TOKEN_KEY);
+        setAuthToken();
+        setJWTAuthData({
+          user: undefined,
+          isLoading: false,
+          isAuthenticated: false,
+        });
+      }
     };
 
     getAuthUser();
   }, []);
 
-  const signInUser = async ({
-    email,
-    password,
-  }: {
-    email: string;
-    password: string;
-  }) => {
+  const signInUser = async ({ email, password }: SignInProps) => {
     infoViewActionsContext.fetchStart();
     try {
-      const { data } = await jwtAxios.post("auth", { email, password });
-      localStorage.setItem("token", data.token);
-      setAuthToken(data.token);
-      const res = await jwtAxios.get("/auth");
+      const { data: body } = await jwtAxios.post("/partner/auth/login", {
+        email,
+        password,
+      });
+      const { accessToken, refreshToken, user } = body.data;
+      localStorage.setItem(ACCESS_TOKEN_KEY, accessToken);
+      localStorage.setItem(REFRESH_TOKEN_KEY, refreshToken);
+      setAuthToken(accessToken);
       setJWTAuthData({
-        user: res.data,
+        user,
         isAuthenticated: true,
         isLoading: false,
       });
       infoViewActionsContext.fetchSuccess();
-    } catch (error) {
+    } catch (error: any) {
       setJWTAuthData({
-        ...firebaseData,
+        ...jwtAuthData,
         isAuthenticated: false,
         isLoading: false,
       });
-      infoViewActionsContext.fetchError("Something went wrong");
+      infoViewActionsContext.fetchError(
+        error?.response?.data?.message || "Đăng nhập thất bại",
+      );
     }
   };
 
-  const signUpUser = async ({
-    name,
-    email,
-    password,
-  }: {
-    name: string;
-    email: string;
-    password: string;
-  }) => {
-    infoViewActionsContext.fetchStart();
+  const refreshUser = async () => {
     try {
-      const { data } = await jwtAxios.post("users", { name, email, password });
-      localStorage.setItem("token", data.token);
-      setAuthToken(data.token);
-      const res = await jwtAxios.get("/auth");
-      setJWTAuthData({
-        user: res.data,
-        isAuthenticated: true,
-        isLoading: false,
-      });
-      infoViewActionsContext.fetchSuccess();
+      const { data: body } = await jwtAxios.get("/partner/auth/me");
+      setJWTAuthData((prev) => ({
+        ...prev,
+        user: body.data,
+      }));
     } catch (error) {
-      setJWTAuthData({
-        ...firebaseData,
-        isAuthenticated: false,
-        isLoading: false,
-      });
-      infoViewActionsContext.fetchError("Something went wrong");
+      // ignore — the periodic /me check on next mount/refresh will catch real auth failures
     }
   };
 
   const logout = async () => {
-    localStorage.removeItem("token");
+    localStorage.removeItem(ACCESS_TOKEN_KEY);
+    localStorage.removeItem(REFRESH_TOKEN_KEY);
     setAuthToken();
     setJWTAuthData({
       user: null,
@@ -169,14 +147,14 @@ const JWTAuthAuthProvider: React.FC<JWTAuthAuthProviderProps> = ({
   return (
     <JWTAuthContext.Provider
       value={{
-        ...firebaseData,
+        ...jwtAuthData,
       }}
     >
       <JWTAuthActionsContext.Provider
         value={{
-          signUpUser,
           signInUser,
           logout,
+          refreshUser,
         }}
       >
         {children}

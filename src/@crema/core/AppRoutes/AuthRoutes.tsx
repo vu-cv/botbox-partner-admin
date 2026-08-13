@@ -1,7 +1,7 @@
 import React from 'react';
 
 const Signin = React.lazy(
-  () => import('../../../modules/auth/Signin/SigninFirebase'),
+  () => import('../../../modules/auth/Signin/SigninJwtAuth'),
 );
 const Signup = React.lazy(() => import('../../../modules/auth/Signup'));
 const ForgotPassword = React.lazy(
