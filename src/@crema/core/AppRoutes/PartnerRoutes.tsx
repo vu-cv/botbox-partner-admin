@@ -14,17 +14,17 @@ const PartnerTransactions = React.lazy(
 export const partnerPagesConfigs = [
   {
     permittedRole: RoutePermittedRole.User,
-    path: '/partner/dashboard',
+    path: '/dashboard',
     element: <PartnerDashboard />,
   },
   {
     permittedRole: RoutePermittedRole.User,
-    path: '/partner/customers',
+    path: '/customers',
     element: <PartnerCustomers />,
   },
   {
     permittedRole: RoutePermittedRole.User,
-    path: '/partner/transactions',
+    path: '/transactions',
     element: <PartnerTransactions />,
   },
 ];

@@ -139,7 +139,7 @@ const PartnerDashboard = () => {
       <Card
         title='Giao dịch gần đây'
         style={{marginTop: 16}}
-        extra={<Link to='/partner/transactions'>Xem tất cả</Link>}
+        extra={<Link to='/transactions'>Xem tất cả</Link>}
       >
         <Table
           rowKey='id'

@@ -15,7 +15,7 @@ const routesConfig = [
         messageId: 'sidebar.partner.dashboard',
         type: 'item',
         icon: <MdOutlineDashboard />,
-        url: '/partner/dashboard',
+        url: '/dashboard',
       },
       {
         id: 'partner-customers',
@@ -23,7 +23,7 @@ const routesConfig = [
         messageId: 'sidebar.partner.customers',
         type: 'item',
         icon: <HiOutlineUsers />,
-        url: '/partner/customers',
+        url: '/customers',
       },
       {
         id: 'partner-transactions',
@@ -31,7 +31,7 @@ const routesConfig = [
         messageId: 'sidebar.partner.transactions',
         type: 'item',
         icon: <MdOutlineReceiptLong />,
-        url: '/partner/transactions',
+        url: '/transactions',
       },
     ],
   },
